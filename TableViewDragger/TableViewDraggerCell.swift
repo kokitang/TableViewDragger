@@ -75,11 +75,10 @@ class TableViewDraggerCell: UIScrollView {
             center.x -= (center.x * dragScale) - point.x // center
         case .left:
             center.x = (center.x * dragScale) + point.x // left
+        case .right:
+            center.x = -(center.x * dragScale) + point.x // right
         case .finger:
             center.x = center.x * dragScale // finger
-//        case .right:
-//            center.x = zoomingView.frame.size.width // right
-        case .right:
             break
         }
 

@@ -11,6 +11,10 @@ import TableViewDragger
 
 class TableViewController: UITableViewController {
 
+    @IBAction func changeDragPosition(_ sender: UIButton) {
+        dragger.dragPosition = DragSnapShotPosition(rawValue: sender.tag)!
+    }
+    
     var dragger: TableViewDragger!
     var items: [[String]] = (0..<10).map { i in (0..<10).map { j in "\(i) - \(j)" } }
 

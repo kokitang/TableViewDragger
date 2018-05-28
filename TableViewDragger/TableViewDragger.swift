@@ -27,11 +27,11 @@ import UIKit
     @objc optional func dragger(_ dragger: TableViewDragger, indexPathForDragAt indexPath: IndexPath) -> IndexPath
 }
 
-public enum DragSnapShotPosition {
-    case center
-    case left
-    case right
-    case finger
+public enum DragSnapShotPosition: Int {
+    case center = 0
+    case left = 1
+    case right = 2
+    case finger = 3
 }
 
 open class TableViewDragger: NSObject {
