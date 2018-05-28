@@ -31,6 +31,7 @@ class TableViewDraggerCell: UIScrollView {
     var viewHeight: CGFloat {
         return zoomingView.bounds.height * zoomScale
     }
+    var dragPosition: DragSnapShotPosition = .center
 
     private func adjustCenter(_ center: CGPoint) -> CGPoint {
         var center = center
@@ -69,7 +70,19 @@ class TableViewDraggerCell: UIScrollView {
         }
 
         var center = zoomingView.center
-        center.x -= (center.x * dragScale) - point.x
+        switch dragPosition {
+        case .center:
+            center.x -= (center.x * dragScale) - point.x // center
+        case .left:
+            center.x = (center.x * dragScale) + point.x // left
+        case .finger:
+            center.x = center.x * dragScale // finger
+//        case .right:
+//            center.x = zoomingView.frame.size.width // right
+        case .right:
+            break
+        }
+
         center.y -= (center.y * dragScale) - point.y
 
         UIView.animate(withDuration: 0.25, delay: 0.1, options: .curveEaseInOut, animations: {

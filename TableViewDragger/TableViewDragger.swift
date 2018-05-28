@@ -27,7 +27,15 @@ import UIKit
     @objc optional func dragger(_ dragger: TableViewDragger, indexPathForDragAt indexPath: IndexPath) -> IndexPath
 }
 
+public enum DragSnapShotPosition {
+    case center
+    case left
+    case right
+    case finger
+}
+
 open class TableViewDragger: NSObject {
+    
     let longPressGesture = UILongPressGestureRecognizer()
     let panGesture = UIPanGestureRecognizer()
     var draggingCell: TableViewDraggerCell?
@@ -46,6 +54,8 @@ open class TableViewDragger: NSObject {
     open var opacityForShadowOfCell: Float = 0.4
     /// Velocity of auto scroll in drag.
     open var scrollVelocity: CGFloat = 1
+    /// Position of snapshot respect to finger point in drag
+    open var dragPosition: DragSnapShotPosition = .right
     open weak var delegate: TableViewDraggerDelegate?
     open weak var dataSource: TableViewDraggerDataSource?
     open var tableView: UITableView? {
@@ -165,7 +175,6 @@ open class TableViewDragger: NSObject {
         cell.dragAlpha = alphaForCell
         cell.dragShadowOpacity = opacityForShadowOfCell
         cell.dropIndexPath = indexPath
-
         return cell
     }
 }
@@ -187,6 +196,7 @@ extension TableViewDragger {
             if let draggedCell = draggedCell(tableView, indexPath: dragIndexPath) {
                 let point = gesture.location(in: actualCell)
                 draggedCell.offset = point
+                draggedCell.dragPosition = dragPosition
                 draggedCell.transformToPoint(point)
                 draggedCell.location = gesture.location(in: tableView)
                 tableView.addSubview(draggedCell)
